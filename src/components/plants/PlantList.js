@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 export const PlantList = () => {
@@ -28,7 +29,9 @@ export const PlantList = () => {
             {
                 plants.map(
                     (plant) => {
-                        return <p key={`plant--${plant.id}`}>{plant.name}</p>
+                        return <p key={`plant--${plant.id}`}>
+                           <Link to={`/plants/${plant.id}`}>{plant.name}</Link>
+                            </p>
                     }
                 )
             }
