@@ -7,20 +7,23 @@ export const Plant = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/plants/${plantId}?_expand=plantType`)
+            fetch(`http://localhost:8088/plants/${plantId}?_expand=plantType&_embed=tasks`)
                 .then(res => res.json())
-                .then(set)
+                .then(set)  
         },
         [ plantId ]  // Above function runs when the value of plantId change
     )
-
+    
     return (
         <>
             <section className="plant">
                 <h1 className="plant__name">{plant.name}</h1>
-                <div className="plant__description">Watering Requirements: {plant.wateringRequirement}</div>
+                <div className="plant__watering">Watering Requirements: {plant.wateringRequirement}</div>
                 <div className="plant__type">Plant Type: {plant.plantType?.type}</div>
-                <div className="plant__task"> {plant.task?.todoDescription}</div>
+                <div className="plant__task">Tasks: {plant.tasks?.map(
+                    (task) => {
+                        return task.todoDescription}
+                )}</div>
             </section>
         </>
     )

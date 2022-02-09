@@ -7,7 +7,7 @@ import { Plant } from "./plants/Plant"
 export const ApplicationViews = () => {
     return (
         <>
-            <Route exact path="/plants">
+            <Route exact path="/">
                 <PlantList />
             </Route>
 
