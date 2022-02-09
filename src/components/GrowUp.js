@@ -6,6 +6,7 @@ import { Register } from "./auth/Register";
 import { NavBar } from "./nav/NavBar";
 
 
+
 export const GrowUp = () => (
   <>
     <Route
