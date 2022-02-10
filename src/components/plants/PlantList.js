@@ -23,15 +23,17 @@ export const PlantList = () => {
         []
     )
 
+
     return (
         <>
             <h1>My Plants</h1>
             {
                 plants.map(
                     (plant) => {
-                        return <p key={`plant--${plant.id}`}>
+                        return <p key={`plant--${plant.id}`}> 
                            <Link to={`/plants/${plant.id}`}>{plant.name}</Link>
                             </p>
+                            
                     }
                 )
             }
@@ -39,6 +41,8 @@ export const PlantList = () => {
             <div>
                 <button onClick={() => history.push("/plants/create")}>Add A Plant</button>
             </div>
+
+
         </>
     )
 }

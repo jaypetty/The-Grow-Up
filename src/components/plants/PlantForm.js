@@ -34,7 +34,7 @@ export const PlantForm = () => {
 
         return fetch("http://localhost:8088/plants", fetchOption)
             .then(() => {
-                history.push("/plants")
+                history.push("/")
             })
     }
 

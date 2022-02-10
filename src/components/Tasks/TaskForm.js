@@ -1,25 +1,37 @@
 import React, {useState, useEffect} from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
+
 
 export const TaskForm = () => {
 
-    const [plants, choosePlants] = useState([])
+    const [plant, set] = useState({})  // State variable for current plant object
+    const { plantId } = useParams()  // Variable storing the route parameter
+    const history = useHistory()
+
     const [task, updateTask] = useState({
         todoDescription: "",
-        plant: ""
+        plantId: ""
     })
-
-    const history = useHistory()
+    
+    
+    useEffect(
+        () => {
+            fetch(`http://localhost:8088/plants/${plantId}?_expand=plantType&_embed=tasks`)
+                .then(res => res.json())
+                .then(data => set(data))  
+        },
+        [ plantId ]  // Above function runs when the value of plantId change
+    )
 
     const submitTask = (event) => {
         event.preventDefault()
         
         const newTask = {
             todoDescription: task.todoDescription,
-            plantId:parseInt(task.plant)   
+            plantId:parseInt(plant.id)   
         }
         
-        // Add the plant obj to the database.
+        // Add the task obj to the database.
         const fetchOption = {
             method: "POST",
             headers: {
@@ -30,20 +42,10 @@ export const TaskForm = () => {
 
         return fetch("http://localhost:8088/tasks", fetchOption)
             .then(() => {
-                history.push("/tasks")
+                history.push(`/plants/${plant.id}`)
             })
     }
 
-    useEffect(
-        () => {
-            fetch("http://localhost:8088/plants")
-            .then(res => res.json())
-            .then((plantsFromAPI) => {
-                    choosePlants(plantsFromAPI)
-            })
-        },
-        []
-    )
 
 
     return (
