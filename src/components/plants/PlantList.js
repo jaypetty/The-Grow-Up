@@ -23,7 +23,6 @@ export const PlantList = () => {
         []
     )
 
-
     return (
         <>
             <h1>My Plants</h1>

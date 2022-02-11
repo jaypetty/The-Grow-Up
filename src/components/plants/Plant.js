@@ -6,6 +6,7 @@ export const Plant = () => {
     const [plant, set] = useState({})  // State variable for current plant object
     const { plantId } = useParams()  // Variable storing the route parameter
     const history = useHistory()
+    const currentUserId = parseInt(localStorage.getItem("grow_user"))
 
     useEffect(
         () => {
@@ -16,12 +17,29 @@ export const Plant = () => {
         [ plantId ]  // Above function runs when the value of plantId change
     )
 
-    const deletePlant = (plantid) => {
-        fetch(`http://localhost:8088/plants/${plantid}`, {
+    const deletePlant = (id) => {
+        fetch(`http://localhost:8088/plants/${id}`, {
           method: "DELETE"
-        }).then(() => Plant())
-    }    
-    
+        })
+        .then( () => {
+            fetch("http://localhost:8088/plants")
+                .then(res => res.json())
+                .then((usersPlantData) => {
+                    const usersPlants = usersPlantData.filter(
+                        (plant) =>
+                            plant.userId === (currentUserId)
+                    )
+                    set(usersPlants)
+                  
+        })
+        .then(() => history.push("/"))
+
+        
+    })
+       
+    }   
+     
+
     return (
         <>
             <section className="plant">
@@ -37,9 +55,11 @@ export const Plant = () => {
                 <button onClick={() => history.push(`/tasks/create/${plant.id}`)}>Create New Task </button>
             </div>
 
+                  
             <div>
             <button onClick={() => {deletePlant(plant.id)}}>Delete</button>
-            </div>           
+            </div>
+
 
 
         </>
